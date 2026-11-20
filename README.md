@@ -1,18 +1,17 @@
 # Phân tích thực nghiệm thuật toán Mergesort với ngưỡng chuyển đổi `CUTOFF`
 
 ## Thông tin sinh viên
-* **Họ và tên:** `[Điền Họ và Tên của bạn]`
-* **Mã sinh viên:** `[Điền Mã Sinh Viên của bạn]`
-* **Học phần:** Cấu trúc dữ liệu và Giải thuật (DSA)
-* **Tài liệu tham chiếu:** Robert Sedgewick & Kevin Wayne, *Algorithms* (4th Edition) — Chủ đề 1.3 (*Algorithm Analysis*) & Mục 2.2 (*Mergesort*)
+* **Họ và tên:** `Vương Thúy Hằng`
+* **Mã sinh viên:** `25020144`
+* **Học phần:** DSA
 
 ---
 
 ## 1. Giới thiệu bài toán
-Trong cài đặt đệ quy chuẩn của thuật toán **Mergesort**, việc chia nhỏ mảng liên tục xuống tận các mảng con kích thước $1$ phát sinh chi phí phụ trợ (*overhead*) đáng kể do số lượng lời gọi hàm đệ quy lớn và thao tác sao chép mảng phụ `aux[]` lặp đi lặp lại. Để khắc phục, giáo trình đề xuất kỹ thuật lai ghép: chuyển sang dùng **Insertion sort** khi kích thước mảng con nhỏ hơn hoặc bằng một ngưỡng `CUTOFF` (`hi <= lo + CUTOFF - 1`), với hai mốc tham khảo kinh điển là `7` và `10`.
+Trong cài đặt đệ quy chuẩn của thuật toán **Mergesort**, việc chia nhỏ mảng liên tục xuống tận các mảng con kích thước $1$ phát sinh chi phí phụ trợ (*overhead*) đáng kể do số lượng lời gọi hàm đệ quy lớn và thao tác sao chép mảng phụ `aux[]` lặp đi lặp lại. Để khắc phục, giáo trình đề xuất kỹ thuật lai ghép: chuyển sang dùng **Insertion sort** khi kích thước mảng con nhỏ hơn hoặc bằng một ngưỡng `CUTOFF` (`hi <= lo + CUTOFF - 1`)
 
 Dự án này thực hiện:
-1. Cài đặt thuật toán `MergeCutoff` bằng Java bám sát nội dung bài giảng 2.2 (bảo toàn tính ổn định *stability* và tích hợp cơ chế dừng sớm khi hai nửa mảng đã có thứ tự).
+1. Cài đặt thuật toán `MergeCutoff` bằng Java bám sát nội dung bài giảng dsa (bảo toàn tính ổn định *stability* và tích hợp cơ chế dừng sớm khi hai nửa mảng đã có thứ tự).
 2. Thiết kế quy trình đo đạc thực nghiệm chuẩn hóa trên 5 phân phối dữ liệu (`random`, `sorted`, `reverse`, `partially_sorted`, `duplicates`), 5 bậc kích thước $N \in \{100\,000 \dots 1\,600\,000\}$ và 14 mốc `CUTOFF` từ `1` đến `30`.
 3. Xác định giá trị `CUTOFF` tối ưu cho cấu hình máy thực nghiệm qua 5 phiên chạy độc lập (tổng cộng $35\,000$ lượt sắp xếp) và kiểm chứng độ phức tạp tiệm cận $\Theta(N \lg N)$ thông qua Giả thuyết gấp đôi (*Doubling Hypothesis*).
 
@@ -22,17 +21,14 @@ Dự án này thực hiện:
 
 ```text
 dsa_cutoff/
-├── src/
-│   ├── MergeCutoff.java        # Cài đặt Mergesort cải tiến với tham số CUTOFF
-│   ├── DataGenerator.java      # Sinh bộ dữ liệu thực nghiệm cố định (SEED = 42L)
-│   └── Benchmark.java          # Chạy đo thời gian thực thi (JVM warm-up, 20 trials)
-├── scripts/
-│   ├── track_runs.py           # Lưu lịch sử các phiên đo và xuất bảng tổng hợp (.md, .xlsx)
-│   └── analyze_and_plot.py     # Thống kê và vẽ biểu đồ đánh giá hiệu năng & Log-Log
+├── ai-logs/
+│   └── log_chat.pdf            # Nhật ký trao đổi với AI trong quá trình làm bài
 ├── data/
 │   ├── README.md               # Mô tả quy tắc sinh và định dạng dữ liệu
 │   ├── sample/                 # Bộ dữ liệu mẫu kích thước nhỏ
 │   └── generated/              # Dữ liệu thực nghiệm đầy đủ (sinh ra khi chạy DataGenerator)
+├── report/
+│   ├── Bao_cao_thi_nghiem_Mergesort_CUTOFF.docx  # Báo cáo chi tiết thực nghiệm
 ├── results/
 │   ├── history/                # Kết quả chi tiết của 5 phiên đo (run_1.csv -> run_5.csv)
 │   ├── plots/                  # Biểu đồ phân tích hiệu năng và Doubling Hypothesis
@@ -40,10 +36,13 @@ dsa_cutoff/
 │   ├── raw_results.csv         # Dữ liệu đo của phiên chạy gần nhất
 │   ├── summary_stats.csv       # Bảng thống kê tổng hợp theo phân phối và kích thước
 │   └── system_info.txt         # Thông số cấu hình phần cứng và JVM của máy đo
-├── ai-logs/
-│   └── log_chat.pdf            # Nhật ký trao đổi với AI trong quá trình làm bài
-├── report/
-│   ├── Bao_cao_thi_nghiem_Mergesort_CUTOFF.docx  # Báo cáo chi tiết thực nghiệm
+├── scripts/
+│   ├── track_runs.py           # Lưu lịch sử các phiên đo và xuất bảng tổng hợp (.md, .xlsx)
+│   └── analyze_and_plot.py     # Thống kê và vẽ biểu đồ đánh giá hiệu năng & Log-Log
+├── src/
+│   ├── MergeCutoff.java        # Cài đặt Mergesort cải tiến với tham số CUTOFF
+│   ├── DataGenerator.java      # Sinh bộ dữ liệu thực nghiệm cố định (SEED = 42L)
+│   └── Benchmark.java          # Chạy đo thời gian thực thi (JVM warm-up, 20 trials)
 └── README.md                   # Tài liệu giới thiệu và hướng dẫn chạy dự án
 ```
 
@@ -97,5 +96,3 @@ python scripts/analyze_and_plot.py
 Các biểu đồ phân tích sẽ được xuất ra thư mục `results/plots/`:
 * `1_cutoff_vs_runtime_maxN.png`: So sánh thời gian chạy theo các giá trị `CUTOFF` trên 5 phân phối dữ liệu tại $N = 1\,600\,000$.
 * `3_doubling_scaling_loglog.png`: Kiểm chứng Giả thuyết gấp đôi (*Doubling Hypothesis*) trên thang $\log_2 - \log_2$.
-
----
