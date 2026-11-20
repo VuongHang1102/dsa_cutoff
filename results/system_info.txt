@@ -1,0 +1,8 @@
+=== CAU HINH HE THONG THUC NGHIEM ===
+OS Name        : Windows 11
+OS Version     : 10.0
+Architecture   : amd64
+Java Version   : 25.0.2
+JVM Name       : Java HotSpot(TM) 64-Bit Server VM
+CPU Cores      : 12
+Max JVM Heap   : 4018.00 MB
